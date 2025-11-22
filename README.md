@@ -46,7 +46,7 @@ The `MultiAgentFlow` custom resource enables users to describe:
 4. The controller will deploy the Python server and pass the configuration for execution.
 
 ## Example Custom Resource
-See [`config/samples/agentplatform_v1_multiagentflow.yaml`](config/samples/agentplatform_v1_multiagentflow.yaml) for a sample `MultiAgentFlow` CR you can use to get started.
+See [`config/samples/multiagentflow-sample.yaml`](config/samples/multiagentflow-sample.yaml) for a sample `MultiAgentFlow` CR you can use to get started.
 
 ## Repository Structure
 - `crd/`: CRD YAML definitions

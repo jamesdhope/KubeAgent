@@ -1,4 +1,3 @@
-
 apiVersion: agentplatform.example.com/v1
 kind: MultiAgentFlow
 metadata:
