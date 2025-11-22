@@ -45,6 +45,9 @@ The `MultiAgentFlow` custom resource enables users to describe:
 3. Apply a `MultiAgentFlow` CR to define your agent workflow.
 4. The controller will deploy the Python server and pass the configuration for execution.
 
+## Example Custom Resource
+See [`config/samples/agentplatform_v1_multiagentflow.yaml`](config/samples/agentplatform_v1_multiagentflow.yaml) for a sample `MultiAgentFlow` CR you can use to get started.
+
 ## Repository Structure
 - `crd/`: CRD YAML definitions
 - `cr/`: Sample custom resources
@@ -53,4 +56,3 @@ The `MultiAgentFlow` custom resource enables users to describe:
 
 ## License
 MIT
-# KubeAgent
