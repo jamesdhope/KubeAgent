@@ -7,9 +7,9 @@ spec:
     - name: agent1
       llms:
         - name: agent1-llm
-          provider: openai
-          model: gpt-3.5-turbo
-          apiKeySecretRef: agent1-openai-key
+          provider: ollama
+          model: gemma:2b
+          apiKeySecretRef: agent1-ollama-key
           parameters:
             temperature: "0.5"
       nodes:
@@ -26,9 +26,9 @@ spec:
     - name: agent2
       llms:
         - name: agent2-llm
-          provider: anthropic
-          model: claude-2
-          apiKeySecretRef: agent2-anthropic-key
+          provider: ollama
+          model: gemma:2b
+          apiKeySecretRef: agent2-ollama-key
           parameters:
             temperature: "0.3"
       nodes:
@@ -44,20 +44,19 @@ spec:
     - from: agent1.node1
       to: agent2.node1
   llms:
-    - name: openai-llm
-      provider: openai
-      model: gpt-4
-      apiKeySecretRef: openai-api-key
+    - name: ollama-llm1
+      provider: ollama
+      model: gemma:2b
+      apiKeySecretRef: ollama-api-key1
       parameters:
         temperature: "0.7"
-    - name: anthropic-llm
-      provider: anthropic
-      model: claude-2
-      apiKeySecretRef: anthropic-api-key
+    - name: ollama-llm2
+      provider: ollama
+      model: gemma:2b
+      apiKeySecretRef: ollama-api-key2
       parameters:
         temperature: "0.5"
-  logging:
-    langfuseApiKeySecretRef: langfuse-api-key
+  logging: {}
   mcp:
     - name: global-vector-db
       type: vectorDB

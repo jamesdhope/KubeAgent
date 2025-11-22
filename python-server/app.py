@@ -92,7 +92,7 @@ def main():
 
     # LLM output logic
     if llm_provider == "ollama":
-        ollama_url = "http://host.docker.internal:11434/api/generate"
+        ollama_url = "http://192.168.0.8:11434/api/generate"
         prompt = nodes[0].get("prompt", "Hello from Ollama!") if nodes else "Hello from Ollama!"
         response = requests.post(
             ollama_url,

@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY app.py ./
 
-RUN pip install flask redis
+RUN pip install flask redis requests
 
 EXPOSE 8080
 
