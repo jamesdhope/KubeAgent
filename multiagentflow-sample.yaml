@@ -1,0 +1,66 @@
+
+apiVersion: agentplatform.example.com/v1
+kind: MultiAgentFlow
+metadata:
+  name: example-flow
+spec:
+  agents:
+    - name: agent1
+      llms:
+        - name: agent1-llm
+          provider: openai
+          model: gpt-3.5-turbo
+          apiKeySecretRef: agent1-openai-key
+          parameters:
+            temperature: "0.5"
+      nodes:
+        - id: node1
+          type: llm
+          llmProvider: agent1-llm
+          prompt: "You are agent1. Respond to the following input: {input}"
+      validation:
+        - type: functional
+          rule: output
+      edges:
+        - from: node1
+          to: node1
+    - name: agent2
+      llms:
+        - name: agent2-llm
+          provider: anthropic
+          model: claude-2
+          apiKeySecretRef: agent2-anthropic-key
+          parameters:
+            temperature: "0.3"
+      nodes:
+        - id: node1
+          type: llm
+          llmProvider: agent2-llm
+          prompt: "You are agent2. Respond to the following input: {input}"
+      validation:
+        - type: functional
+          rule: status == 'completed'
+      edges: []
+  connections:
+    - from: agent1.node1
+      to: agent2.node1
+  llms:
+    - name: openai-llm
+      provider: openai
+      model: gpt-4
+      apiKeySecretRef: openai-api-key
+      parameters:
+        temperature: "0.7"
+    - name: anthropic-llm
+      provider: anthropic
+      model: claude-2
+      apiKeySecretRef: anthropic-api-key
+      parameters:
+        temperature: "0.5"
+  logging:
+    langfuseApiKeySecretRef: langfuse-api-key
+  mcp:
+    - name: global-vector-db
+      type: vectorDB
+      endpoint: https://vectordb.example.com
+      authSecretRef: global-vector-db-secret

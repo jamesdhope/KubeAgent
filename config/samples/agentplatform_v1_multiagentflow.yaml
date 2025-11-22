@@ -1,0 +1,87 @@
+apiVersion: agentplatform.example.com/v1
+kind: MultiAgentFlow
+metadata:
+  name: example-flow
+spec:
+  mcp:
+    - name: global-vector-db
+      type: vectorDB
+      endpoint: https://vectordb.example.com
+      authSecretRef: global-vector-db-secret
+
+  llms:
+    - name: openai-llm
+      provider: openai
+      model: gpt-4
+      parameters:
+        temperature: "0.7"
+      apiKeySecretRef: openai-api-key
+    - name: anthropic-llm
+      provider: anthropic
+      model: claude-2
+      parameters:
+        temperature: "0.5"
+      apiKeySecretRef: anthropic-api-key
+
+  logging: {}
+
+  agents:
+    - name: agent1
+      llms:
+        - name: agent1-llm
+          provider: openai
+          model: gpt-3.5-turbo
+          parameters:
+            temperature: "0.5"
+          apiKeySecretRef: agent1-openai-key
+      validation:
+        - type: functional
+          rule: "output"
+      nodes:
+        - id: node1
+          type: llm
+          llmProvider: agent1-llm
+          prompt: "You are agent1. Respond to the following input: {input}"
+      edges:
+        - from: node1
+          to: node1
+
+    - name: agent2
+      llms:
+        - name: agent2-llm
+          provider: anthropic
+          model: claude-2
+          parameters:
+            temperature: "0.3"
+          apiKeySecretRef: agent2-anthropic-key
+      validation:
+        - type: functional
+          rule: "status == 'completed'"
+      nodes:
+        - id: node1
+          type: llm
+          llmProvider: agent2-llm
+          prompt: "You are agent2. Respond to the following input: {input}"
+      edges: []
+
+    - name: agent3
+      llms:
+        - name: agent3-llm
+          provider: ollama
+          model: gemma2:2b
+          parameters:
+            temperature: "0.1"
+          apiKeySecretRef: ""
+      validation:
+        - type: functional
+          rule: "status == 'completed'"
+      nodes:
+        - id: node1
+          type: llm
+          llmProvider: agent3-llm
+          prompt: "Say hello from Ollama!"
+      edges: []
+
+  connections:
+    - from: agent1.node1
+      to: agent2.node1
