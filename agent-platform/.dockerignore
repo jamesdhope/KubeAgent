@@ -1,0 +1,15 @@
+# Ignore build output and unnecessary files
+bin/
+*.test
+*.out
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+node_modules/
+.DS_Store
+Thumbs.db
+archive/
+agent-platform-backup/
+archive-old/

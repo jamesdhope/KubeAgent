@@ -1,0 +1,65 @@
+apiVersion: agentplatform.example.com/v1
+kind: MultiAgentFlow
+metadata:
+  name: example-flow
+spec:
+  agents:
+    - name: agent1
+      llms:
+        - name: groq-llm
+          provider: groq
+          model: openai/gpt-oss-20b
+          endpoint: https://api.groq.com/openai/v1/chat/completions
+          apiKeySecretRef: groq-api-key
+          parameters:
+            temperature: "1"
+            max_completion_tokens: "8192"
+            top_p: "1"
+            stream: "true"
+            reasoning_effort: "medium"
+      nodes:
+        - id: node1
+          type: llm
+          llmProvider: groq-llm
+          prompt: "You are agent1. Respond to the following input: {input}"
+      validation:
+        - type: functional
+          rule: output
+      edges:
+        - from: node1
+          to: node1
+    - name: agent2
+      llms:
+        - name: groq-llm
+          provider: groq
+          model: openai/gpt-oss-20b
+          apiKeySecretRef: groq-api-key
+          parameters:
+            temperature: "1"
+            max_completion_tokens: "8192"
+            top_p: "1"
+            stream: "true"
+            reasoning_effort: "medium"
+      nodes:
+        - id: node1
+          type: llm
+          llmProvider: groq-llm
+          prompt: "You are agent2. Respond to the following input: {input}"
+      validation:
+        - type: functional
+          rule: status == 'completed'
+      edges: []
+  connections:
+    - from: agent1.node1
+      to: agent2.node1
+  llms:
+    - name: groq-llm
+      provider: groq
+      model: openai/gpt-oss-20b
+      apiKeySecretRef: groq-api-key
+      parameters:
+        temperature: "1"
+        max_completion_tokens: "8192"
+        top_p: "1"
+        stream: "true"
+        reasoning_effort: "medium"
